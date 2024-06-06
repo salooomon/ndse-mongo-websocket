@@ -1,0 +1,39 @@
+services:
+
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 8081:8081
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - ./data/mongo:/data/db
+
+  storage:
+    image: redis
+    volumes:
+      - ./data:/data
+
+  counter:
+    image: kirill000/counter:v1.0.0
+    ports:
+      - 3000:3000
+    environment:
+      - PORTS=3000
+      - REDIS_URL=redis://storage
+    depends_on:
+      - storage
+
+  library:
+    image: kirill000/library:v3.0.0
+    ports:
+      - 3001:3001
+    environment:
+      - PORTS=3001
+      - CNT_PORT=3000
+      - REDIS_URL=redis://storage
+    depends_on:
+      - mongo
+      - counter

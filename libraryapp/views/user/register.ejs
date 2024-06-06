@@ -1,0 +1,33 @@
+<%- include('../port/layout-start', {title: title}) %>
+<%- include('../port/menu') %>
+
+<h1><%= title %></h1>
+
+<div class="row">
+    <div class="col-sm-6">
+
+        <form action="/user/register" method="post">
+            <div class="form-outline mb-4">
+                <label class="form-label" for="displayName">Name:</label>
+                <input type="text" id="displayName" name="displayName" class="form-control" />
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="username">Login:</label>
+                <input type="username" id="username" name="username" class="form-control" />
+            </div>
+            <div class="form-outline mb-4">
+                <label class="form-label" for="password">Password:</label>
+                <input type="password" id="password" name="password" class="form-control" />
+            </div>
+            <div>
+                <input type="submit" class="btn btn-primary btn-block mb-4" value="Register" />
+            </div>
+            <div class="text-center">
+                <p><a href="/user/login">To come in</a></p>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<%- include('../port/layout-end') %>
