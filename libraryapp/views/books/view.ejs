@@ -29,4 +29,43 @@
     </div>
 </div>
 
+div class="col-sm-8">
+<% if(user) { %>
+    <div class="col-4">
+        <div class="form-group">
+            <label for="text">feedback</label>
+            <textarea
+                    placeholder="message"
+                    class="form-control"
+                    id="text"
+            ></textarea>
+        </div>
+        <button type="submit" id="send-msg" class="btn btn-primary">Send</button>
+    </div>
+<% } else { %>
+    <div >
+        <p>To leave a review, please, <a href="/user/login">log in</a>.</p>
+    </div>
+<% }  %>
+</div>
+<div class="col-sm-8">
+    <div class="col-4">
+        <div id="list" class="list-group">
+            <% if(messages ) { %>
+                <% messages.forEach(message => { %>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <small class="text-muted"><%= message.username %> - <%= message.createdAt.getDate() %>.<%= message.createdAt.getMonth() + 1 %>.<%= message.createdAt.getFullYear() %> <%= message.createdAt.getHours() %>:<%= message.createdAt.getMinutes() %></small>
+                        </div>
+                        <p class="mb-1"><%= message.message %></p>
+                    </div>
+                <% }); %>
+            <% } %>
+        </div>
+
+    </div>
+</div>
+</div>
+</div>
+
 <%- include('../port/layout-end') %>
