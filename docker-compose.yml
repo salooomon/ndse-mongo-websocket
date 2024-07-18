@@ -17,7 +17,12 @@ services:
       - ./data:/data
 
   counter:
-    image: kirill000/counter:v1.0.0
+#    image: kirill000/counter:v1.0.0
+    build: ./counter
+    restart: always
+    volumes:
+      - /app/node_modules
+      - ./counter:/app
     ports:
       - 3000:3000
     environment:
@@ -27,13 +32,20 @@ services:
       - storage
 
   library:
-    image: kirill000/library:v3.0.0
+#    image: kirill000/library:v4.0.0
+    build: ./libraryapp
+    command: npm run dev
+    restart: always
     ports:
       - 3001:3001
     environment:
       - PORTS=3001
       - CNT_PORT=3000
       - REDIS_URL=redis://storage
+      - DB_URL=mongodb://root:example@mongo:27017
+    volumes:
+      - /app/node_modules
+      - ./libraryapp:/app
     depends_on:
       - mongo
       - counter

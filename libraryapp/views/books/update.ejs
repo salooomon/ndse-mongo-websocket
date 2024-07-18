@@ -1,4 +1,4 @@
-<%- include('../port/layout-start', {title: title}) %>
+<%- include('../port/start', {title: title}) %>
 <%- include('../port/menu') %>
 
 <h1><%= title %></h1>
@@ -6,9 +6,9 @@
 <div class="row">
     <div class="col-sm-6">
         
-        <%- include('form', {books: books}) %>
+        <%- include('form', {book: book}) %>
 
     </div>
 </div>
 
-<%- include('../port/layout-end') %>
+<%- include('../port/end') %>

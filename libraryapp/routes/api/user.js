@@ -1,15 +1,16 @@
 const express = require('express');
-const router = express.Router();
 const passport = require('passport');
+
+const router = express.Router();
 
 const {
     userLogin,
     userRegister,
-    userProfile
+    userProfile,
 } = require('../../regulator/user/userApi');
 
-router.get('/me', userProfile);
-router.post('/login', passport.authenticate('local', { failureMessage: 'Wrong login or password'}, userLogin));
+router.get('/profile', userProfile);
+router.post('/login', passport.authenticate('local', { failureMessage: 'Неправильный логин или пароль' }), userLogin);
 router.post('/signup', userRegister);
 
 module.exports = router;

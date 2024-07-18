@@ -1,26 +1,27 @@
 const Message = require('../../models/message');
 
 // Получение сообщение
-const getMessage = (req, res) => {
+module.exports.getMessage = (req, res) => {
     const { id } = req.params;
-    Message.find({ bookid: id })
-    .then((mess) => res.status(200).json(mess))
-    .catch((error) => {
-        console.log(error);
-    });
+    Message.find( {bookid: id} )
+        .then((messages) => res.status(200).json(messages))
+        .catch((e) => {
+            console.log(e);
+        });
 };
 
 // Отправка сообщений
-const sendMessage = (req, res) => {
+module.exports.sendMessage = (req, res) => {
     if (!req.isAuthenticated()) {
-        return res.status(403).json('No access')
+        return res.status(403).json('Нет доступа');
     }
-    const {bookid, username, message} = req.body;
-    Message.create({bookid, username, message})
-    .then((newMessage) => res.status(201).json(newMessage))
-    .catch((error) => {
-        console.log(error);
-    });
+    const {
+        bookid, username, message
+    } = req.body;
+    Message.create({
+        bookid, username, message
+    }).then((newMessage) => res.status(201).json(newMessage))
+        .catch((e) => {
+            console.log(e);
+        });
 };
-
-module.exports = { getMessage, sendMessage }

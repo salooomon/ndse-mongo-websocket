@@ -11,7 +11,7 @@ const {
     userRegister,
 } = require('../regulator/user/userRender');
 
-router.get('/me', renderProfile);
+router.get('/profile', renderProfile);
 router.get('/login', renderLogin);
 router.post('/login', passport.authenticate('local', {failureRedirect: 'user/login'}), userLogin);
 router.get('/register', renderRegister);

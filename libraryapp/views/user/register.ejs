@@ -1,4 +1,4 @@
-<%- include('../port/layout-start', {title: title}) %>
+<%- include('../port/start', {title: title}) %>
 <%- include('../port/menu') %>
 
 <h1><%= title %></h1>
@@ -8,26 +8,26 @@
 
         <form action="/user/register" method="post">
             <div class="form-outline mb-4">
-                <label class="form-label" for="displayName">Name:</label>
+                <label class="form-label" for="displayName">Имя:</label>
                 <input type="text" id="displayName" name="displayName" class="form-control" />
             </div>
             <div class="form-outline mb-4">
-                <label class="form-label" for="username">Login:</label>
+                <label class="form-label" for="username">Логин:</label>
                 <input type="username" id="username" name="username" class="form-control" />
             </div>
             <div class="form-outline mb-4">
-                <label class="form-label" for="password">Password:</label>
+                <label class="form-label" for="password">Пароль:</label>
                 <input type="password" id="password" name="password" class="form-control" />
             </div>
             <div>
-                <input type="submit" class="btn btn-primary btn-block mb-4" value="Register" />
+                <input type="submit" class="btn btn-primary btn-block mb-4" value="Регистрация" />
             </div>
             <div class="text-center">
-                <p><a href="/user/login">To come in</a></p>
+                <p><a href="/user/login">Войти</a></p>
             </div>
         </form>
 
     </div>
 </div>
 
-<%- include('../port/layout-end') %>
+<%- include('../port/end') %>

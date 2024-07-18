@@ -4,7 +4,7 @@ const fileMulter = require('../middleware/file');
 
 const {
   renderLibrary,
-  RenderPageCreateBook,
+  renderPageCreateBook,
   createPage,
   renderPageBook,
   renderEdite,
@@ -14,7 +14,7 @@ const {
 
 
 router.get('/', renderLibrary);
-router.get('/create', RenderPageCreateBook);
+router.get('/create', renderPageCreateBook);
 router.post('/create', fileMulter.single('fileBook'), createPage);
 
 router.get('/:id', renderPageBook );

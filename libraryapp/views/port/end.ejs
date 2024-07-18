@@ -1,0 +1,93 @@
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+
+<% if(typeof book != "undefined" && user) { %>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        const bookid = '<%= book.id %>';
+        const socket = io.connect('/', { query: `bookid=${bookid}` });
+        const boxList = document.querySelector('#list');
+        const displayName = '<%= user.displayName %>';
+        const inputText = document.querySelector('#text');
+        const sendMsg = document.querySelector('#send-msg');
+
+        const getFormattedDate = (date) => {
+            const currentDate = new Date(date);
+
+            const day = currentDate.getDate().toString().padStart(2, '0');
+            const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+            const year = currentDate.getFullYear();
+            const hours = currentDate.getHours().toString().padStart(2, '0');
+            const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+
+            return `${day}.${month}.${year} ${hours}:${minutes}`;
+        };
+
+        const getMessageTemplate = (msg) => {
+            return `
+                <div class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <small class="text-muted">${msg.username} - ${getFormattedDate(msg.date)}</small>
+                    </div>
+                    <p class="mb-1">${msg.text}</p>
+                </div>
+            `;
+        };
+
+        socket.on('message-to-book', (msg) => {
+            const messageDiv = getMessageTemplate(msg);
+            boxList.insertAdjacentHTML('afterbegin', messageDiv);
+        });
+
+        sendMsg.addEventListener('click', () => {
+            const messageData = {
+                bookid: '<%= book.id %>',
+                username: '<%= user.username %>',
+                message: inputText.value
+            };
+
+            // Отправка сообщения через сокеты
+            socket.emit('message-to-book', {
+                username: displayName,
+                text: inputText.value,
+            });
+
+            // Сохранение сообщения в базу данных
+            fetch('/api/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(messageData),
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok');
+                })
+                .then(data => {
+                    // Обработка ответа
+                    console.log('Сообщение успешно сохранено:', data);
+                })
+                .catch(error => {
+                    console.error('Ошибка при сохранении сообщения:', error);
+                });
+
+            // Очистка поля ввода после отправки сообщения
+            inputText.value = '';
+        });
+    </script>
+
+<% } %>
+</body>
+</html>
